@@ -1,5 +1,5 @@
 # Importing the library
-import /usr/bin/psutil/
+import psutil
 
 # Calling psutil.cpu_precent() for 1 seconds
 print('The CPU usage is: ', psutil.cpu_percent(1))
