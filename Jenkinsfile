@@ -1,15 +1,17 @@
-pipeline{
+pipeline {
     agent any
     stages{
-	    stage('version') {
-		    steps {
-			sh 'python3 --version'
-		   }
-	    }
-	    stage('hello') {
-		    steps {
-			sh 'python3 hello.py'
-		    }
-	    }
-      }
+        stage("AWS-jenkins credentials"){
+            steps{
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'awscred',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+
+                    sh "aws ec2 start-instances --instance-ids i-0cd31f357eb6a15a4 --region ap-southeast-1"
+                }
+            }
+        }
+    }
 }
